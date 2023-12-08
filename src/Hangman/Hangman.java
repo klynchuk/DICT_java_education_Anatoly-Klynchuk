@@ -79,7 +79,6 @@ public class Hangman {
         if (lives == 0) {
             System.out.println("You lost!");
         }
-
         guessedLetters.clear();  // Очищуємо введені букви для наступної гри
     }
 }
