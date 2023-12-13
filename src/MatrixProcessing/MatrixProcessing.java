@@ -9,6 +9,7 @@ public class MatrixProcessing {
             System.out.println("1. Add matrices");
             System.out.println("2. Multiply matrix by a constant");
             System.out.println("3. Multiply matrices");
+            System.out.println("4. Transpose matrix");
             System.out.println("0. Exit");
             System.out.print("Your choice: ");
             choice = scanner.nextInt();
@@ -22,6 +23,9 @@ public class MatrixProcessing {
                     break;
                 case 3:
                     multiplyMatrices(scanner);
+                    break;
+                case 4:
+                    transposeMatrixMenu(scanner);
                     break;
                 case 0:
                     System.out.println("Exiting the program.");
@@ -88,6 +92,24 @@ public class MatrixProcessing {
         }
     }
 
+    private static void transposeMatrixMenu(Scanner scanner) {
+        System.out.println("1. Main diagonal");
+        System.out.println("2. Side diagonal");
+        System.out.println("3. Vertical line");
+        System.out.println("4. Horizontal line");
+        System.out.print("Your choice: ");
+        int transposeChoice = scanner.nextInt();
+
+        System.out.println("Enter matrix size: ");
+        int rows = scanner.nextInt();
+        int cols = scanner.nextInt();
+        int[][] matrix = readMatrix(rows, cols, scanner);
+
+        int[][] resultMatrix = transposeMatrix(matrix, transposeChoice);
+        System.out.println("The result is:");
+        printMatrix(resultMatrix);
+    }
+
     private static int[][] readMatrix(int rows, int cols, Scanner scanner) {
         int[][] matrix = new int[rows][cols];
         System.out.println("Enter matrix:");
@@ -140,6 +162,51 @@ public class MatrixProcessing {
                     resultMatrix[i][j] += matrixA[i][k] * matrixB[k][j];
                 }
             }
+        }
+
+        return resultMatrix;
+    }
+
+    private static int[][] transposeMatrix(int[][] matrix, int transposeChoice) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int[][] resultMatrix = new int[cols][rows];
+
+        switch (transposeChoice) {
+            case 1:
+                // Main diagonal
+                for (int i = 0; i < cols; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        resultMatrix[i][j] = matrix[j][i];
+                    }
+                }
+                break;
+            case 2:
+                // Side diagonal
+                for (int i = 0; i < cols; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        resultMatrix[i][j] = matrix[rows - 1 - j][cols - 1 - i];
+                    }
+                }
+                break;
+            case 3:
+                // Vertical line
+                for (int i = 0; i < cols; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        resultMatrix[i][j] = matrix[i][rows - 1 - j];
+                    }
+                }
+                break;
+            case 4:
+                // Horizontal line
+                for (int i = 0; i < cols; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        resultMatrix[i][j] = matrix[cols - 1 - i][j];
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid choice for transpose.");
         }
 
         return resultMatrix;
