@@ -1,5 +1,7 @@
 import java.util.Scanner;
+
 public class TicTacToe {
+
     // Функція для друку ігрового поля
     private static void printBoard(char[][] board) {
         System.out.println("---------");
@@ -32,11 +34,24 @@ public class TicTacToe {
         if ((board[0][2] == symbol) && (board[1][1] == symbol) && (board[2][0] == symbol)) {
             return true; // Перемога на додатковій діагоналі
         }
-
         return false;
     }
 
     // Функція для аналізу стану гри
+    private static boolean isValidMove(char[][] board, int row, int col) {
+        if (row < 0 || row >= 3 || col < 0 || col >= 3) {
+            System.out.println("Coordinates should be from 1 to 3!");
+            return false;
+        }
+
+        if (board[row][col] != ' ') {
+            System.out.println("This cell is occupied! Choose another one!");
+            return false;
+        }
+
+        return true;
+    }
+
     private static void analyzeGameState(char[][] board) {
         int countX = 0;
         int countO = 0;
@@ -72,14 +87,13 @@ public class TicTacToe {
             System.out.println("Game not finished");
         }
     }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter cells: ");
         String input = scanner.nextLine();
         char[][] gameBoard = new char[3][3];
         int index = 0;
+
         // Заповнення ігрового поля з введеного рядка
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -87,11 +101,36 @@ public class TicTacToe {
                 index++;
             }
         }
+
         // Друк ігрового поля
         printBoard(gameBoard);
 
         // Аналіз стану гри
         analyzeGameState(gameBoard);
+        boolean validMove = false;
+        do {
+            System.out.print("Enter the coordinates: ");
+            try {
+                int row = scanner.nextInt() - 1;
+                int col = scanner.nextInt() - 1;
+
+                if (isValidMove(gameBoard, row, col)) {
+                    gameBoard[row][col] = 'X';
+                    validMove = true;
+                }
+            } catch (Exception e) {
+                System.out.println("You should enter numbers!");
+                scanner.nextLine();
+            }
+        } while (!validMove);
+
+        printBoard(gameBoard);
+
+        if (checkWin(gameBoard, 'X')) {
+            System.out.println("X wins");
+        } else {
+            analyzeGameState(gameBoard);
+        }
 
         // Закриття сканера
         scanner.close();
