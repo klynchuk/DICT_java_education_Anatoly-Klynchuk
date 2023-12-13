@@ -5,24 +5,19 @@ public class MatrixProcessing {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Зчитуємо матрицю A
-        System.out.println("Enter matrix A:");
-        int[][] matrixA = readMatrix(scanner);
+        // Зчитуємо матрицю
+        System.out.println("Enter matrix:");
+        int[][] matrix = readMatrix(scanner);
 
-        // Зчитуємо матрицю B
-        System.out.println("\nEnter matrix B:");
-        int[][] matrixB = readMatrix(scanner);
+        // Зчитуємо константу
+        System.out.println("\nEnter constant:");
+        int constant = scanner.nextInt();
 
-        // Додаємо матриці, якщо це можливо
-        int[][] result = addMatrices(matrixA, matrixB);
+        // Множимо матрицю на константу
+        int[][] result = multiplyMatrixByConstant(matrix, constant);
 
-        // Виводимо результат або повідомлення про помилку
-        if (result != null) {
-            System.out.println("\nSum of matrices A and B:");
-            printMatrix(result);
-        } else {
-            System.out.println("ERROR");
-        }
+        // Виводимо результат
+        printMatrix(result);
     }
 
     private static int[][] readMatrix(Scanner scanner) {
@@ -48,19 +43,14 @@ public class MatrixProcessing {
         }
     }
 
-    private static int[][] addMatrices(int[][] matrixA, int[][] matrixB) {
-        if (matrixA.length != matrixB.length || matrixA[0].length != matrixB[0].length) {
-            return null; // Повертаємо null, якщо додавання неможливе
-        }
-
-        int rows = matrixA.length;
-        int cols = matrixA[0].length;
-
+    private static int[][] multiplyMatrixByConstant(int[][] matrix, int constant) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
         int[][] result = new int[rows][cols];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                result[i][j] = matrixA[i][j] + matrixB[i][j];
+                result[i][j] = matrix[i][j] * constant;
             }
         }
 
